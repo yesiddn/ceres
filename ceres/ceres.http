@@ -1,0 +1,6 @@
+@ceres_HostAddress = http://localhost:5170
+
+GET {{ceres_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
