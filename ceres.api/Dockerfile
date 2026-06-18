@@ -8,14 +8,14 @@ FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["ceres/ceres.csproj", "ceres/"]
-RUN dotnet restore "ceres/ceres.csproj"
+RUN dotnet restore "ceres/ceres.api.csproj"
 COPY . .
 WORKDIR "/src/ceres"
-RUN dotnet build "./ceres.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "./ceres.api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./ceres.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./ceres.api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
