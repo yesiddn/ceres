@@ -1,6 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ceres", "ceres\ceres.csproj", "{01412B0B-2C3B-4BE7-9889-067179F6AECA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ceres.api", "ceres.api\ceres.api.csproj", "{01412B0B-2C3B-4BE7-9889-067179F6AECA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ceres.application", "ceres.application\ceres.application.csproj", "{B502A1A6-BF6E-403B-9CBA-20537E524D1A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ceres.domain", "ceres.domain\ceres.domain.csproj", "{DB3C18AC-9CF0-4598-B632-C1511513C15A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ceres.infrastructure", "ceres.infrastructure\ceres.infrastructure.csproj", "{4C57A221-7C8A-49DE-8B06-C514ABACCE2D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -12,5 +18,17 @@ Global
 		{01412B0B-2C3B-4BE7-9889-067179F6AECA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{01412B0B-2C3B-4BE7-9889-067179F6AECA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{01412B0B-2C3B-4BE7-9889-067179F6AECA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B502A1A6-BF6E-403B-9CBA-20537E524D1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B502A1A6-BF6E-403B-9CBA-20537E524D1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B502A1A6-BF6E-403B-9CBA-20537E524D1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B502A1A6-BF6E-403B-9CBA-20537E524D1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB3C18AC-9CF0-4598-B632-C1511513C15A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB3C18AC-9CF0-4598-B632-C1511513C15A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB3C18AC-9CF0-4598-B632-C1511513C15A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB3C18AC-9CF0-4598-B632-C1511513C15A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C57A221-7C8A-49DE-8B06-C514ABACCE2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C57A221-7C8A-49DE-8B06-C514ABACCE2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C57A221-7C8A-49DE-8B06-C514ABACCE2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C57A221-7C8A-49DE-8B06-C514ABACCE2D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
