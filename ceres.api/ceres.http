@@ -4,3 +4,8 @@ GET {{ceres_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
+
+GET {{ceres_HostAddress}}/api/health/
+Accept: application/json
+
+###

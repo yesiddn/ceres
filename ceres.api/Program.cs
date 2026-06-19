@@ -1,3 +1,4 @@
+using ceres.api.Endpoints;
 using Microsoft.EntityFrameworkCore;
 using ceres.infrastructure.persistence;
 
@@ -23,6 +24,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+var api = app.MapGroup("/api");
+
+api.MapHealthEndpoints();
 
 var summaries = new[]
 {
