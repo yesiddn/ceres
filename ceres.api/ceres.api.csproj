@@ -18,6 +18,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\ceres.application\ceres.application.csproj" />
       <ProjectReference Include="..\ceres.infrastructure\ceres.infrastructure.csproj" />
     </ItemGroup>
 

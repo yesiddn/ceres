@@ -1,4 +1,5 @@
 using ceres.api.Endpoints;
+using ceres.api.Extensions;
 using Microsoft.EntityFrameworkCore;
 using ceres.infrastructure.persistence;
 
@@ -14,6 +15,9 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 // Registrar el DbContext de PostgreSQL
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(connectionString));
+
+// DI
+builder.Services.AddApplicationServices();
 
 var app = builder.Build();
 
