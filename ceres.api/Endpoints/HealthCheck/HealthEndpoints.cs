@@ -12,9 +12,10 @@ public static class HealthEndpoints
 
         health.MapGet("/", HealthCheckAsync)
             .WithName(nameof(HealthCheckAsync))
-            .Produces(StatusCodes.Status200OK)
+            .Produces<HealthCheckResponse>(StatusCodes.Status200OK)
+            .ProducesProblem(StatusCodes.Status503ServiceUnavailable)
             .WithSummary("Health check")
-            .WithDescription("Checks whether the API is running and whether the database connection is available.\"");
+            .WithDescription("Checks whether the API is running and whether the database connection is available.");
 
         return api;
     }
