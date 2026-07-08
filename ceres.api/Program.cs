@@ -5,6 +5,14 @@ using ceres.infrastructure.persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
+const string allowCeresOrigin = "AllowCeresOrigin";
+var ceresOrigin = builder.Configuration.GetRequiredSection("Cors:AllowedOrigins").Get<string[]>() ?? [];
+
+if (ceresOrigin.Length == 0 || ceresOrigin.Any(string.IsNullOrWhiteSpace))
+{
+    throw new InvalidOperationException("Cors:AllowedOrigins configuration is missing or is empty");
+}
+
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApiDocumentation();
@@ -19,6 +27,14 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // DI
 builder.Services.AddApplicationServices();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: allowCeresOrigin, policy =>
+    {
+        policy.WithOrigins(ceresOrigin).AllowAnyHeader().AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -28,6 +44,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors(allowCeresOrigin);
 
 var api = app.MapGroup("/api");
 
