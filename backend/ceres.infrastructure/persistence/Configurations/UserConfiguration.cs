@@ -22,5 +22,9 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 
         builder.Property(user => user.CreatedAt)
             .IsRequired();
+
+        builder.HasIndex(user => user.Email)
+            .IsUnique()
+            .HasDatabaseName("IX_Users_Email");
     }
 }
