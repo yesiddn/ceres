@@ -5,6 +5,9 @@ using ceres.infrastructure.persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddProblemDetails();
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+
 const string allowCeresOrigin = "AllowCeresOrigin";
 var ceresOrigin = builder.Configuration.GetRequiredSection("Cors:AllowedOrigins").Get<string[]>() ?? [];
 
@@ -26,6 +29,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 // DI
 builder.Services.AddApplicationServices();
+builder.Services.AddInfrastructureServices();
 
 builder.Services.AddCors(options =>
 {
@@ -38,6 +42,8 @@ builder.Services.AddCors(options =>
 builder.Services.AddValidation();
 
 var app = builder.Build();
+
+app.UseExceptionHandler();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
