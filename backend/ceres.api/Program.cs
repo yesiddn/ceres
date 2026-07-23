@@ -1,4 +1,7 @@
 using ceres.api.Endpoints;
+using ceres.api.Endpoints.HealthCheck;
+using ceres.api.Endpoints.Identity;
+using ceres.api.Exceptions;
 using ceres.api.Extensions;
 using Microsoft.EntityFrameworkCore;
 using ceres.infrastructure.persistence;
@@ -58,29 +61,6 @@ app.UseCors(allowCeresOrigin);
 var api = app.MapGroup("/api");
 
 api.MapHealthEndpoints();
-
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-    {
-        var forecast = Enumerable.Range(1, 5).Select(index =>
-                new WeatherForecast
-                (
-                    DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                    Random.Shared.Next(-20, 55),
-                    summaries[Random.Shared.Next(summaries.Length)]
-                ))
-            .ToArray();
-        return forecast;
-    })
-    .WithName("GetWeatherForecast");
+api.MapAuthEndpoints();
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
