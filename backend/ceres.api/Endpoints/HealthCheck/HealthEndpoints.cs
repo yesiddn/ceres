@@ -2,7 +2,7 @@ using ceres.application.HealthCheck.DTOs;
 using ceres.application.HealthCheck.Interfaces;
 using Microsoft.AspNetCore.Http.HttpResults;
 
-namespace ceres.api.Endpoints;
+namespace ceres.api.Endpoints.HealthCheck;
 
 public static class HealthEndpoints
 {
