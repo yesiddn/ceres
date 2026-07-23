@@ -6,9 +6,9 @@ public sealed class RegisterRequest
 {
     [Required(ErrorMessage = "Email is required.")]
     [EmailAddress(ErrorMessage = "Email format is invalid.")]
-    public string? Email { get; set; }
+    public string Email { get; set; } = null!;
 
     [Required(ErrorMessage = "Password is required.")]
     [MinLength(8, ErrorMessage = "Password must be at least 8 characters.")]
-    public string? Password { get; set; }
+    public string Password { get; set; } = null!;
 }
