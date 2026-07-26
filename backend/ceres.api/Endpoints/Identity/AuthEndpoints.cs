@@ -10,9 +10,9 @@ public static class AuthEndpoints
 {
     public static RouteGroupBuilder MapAuthEndpoints(this RouteGroupBuilder api)
     {
-        var health = api.MapGroup("/auth").WithTags("Authentication", "Authorization");
+        var auth = api.MapGroup("/auth").WithTags("Auth");
 
-        health.MapPost("/register", RegisterAsync)
+        auth.MapPost("/register", RegisterAsync)
             .WithName("Register")
             .Produces<RegisterResponse>(StatusCodes.Status201Created)
             .Produces(StatusCodes.Status400BadRequest)
@@ -20,6 +20,13 @@ public static class AuthEndpoints
             .WithSummary("Registers a new user")
             .WithDescription("Registers a new user");
 
+        auth.MapPost("/login", LoginAsync)
+            .WithName("Login")
+            .Produces<AuthResponse>()
+            .Produces(StatusCodes.Status400BadRequest)
+            .Produces(StatusCodes.Status401Unauthorized)
+            .WithSummary("Logins a user")
+            .WithDescription("Logins a user");
         return api;
     }
 
@@ -47,6 +54,25 @@ public static class AuthEndpoints
 
             _ => throw new InvalidOperationException(
                 $"Unknown registration status: {result.Status}")
+        };
+    }
+
+    private static async Task<Results<
+            Ok<AuthResponse>,
+            UnauthorizedHttpResult>>
+        LoginAsync(
+            LoginRequest request,
+            IAuthService authService,
+            CancellationToken cancellationToken
+        )
+    {
+        var result = await authService.LoginAsync(request, cancellationToken);
+
+        return result.Status switch
+        {
+            LoginStatus.Success => TypedResults.Ok(result.Auth),
+            LoginStatus.InvalidCredentials => TypedResults.Unauthorized(),
+            _ => throw new InvalidOperationException($"Unknown login status: {result.Status}"),
         };
     }
 }
