@@ -6,11 +6,11 @@ Personal finance app with gym tracking module — built to learn and apply real 
 
 ---
 
-## Current Sprint: Sprint 2 — Autenticación (Login y Registro)
+## Current Sprint: Sprint 2 — Authentication (Login & Registration)
 
-Sprint 1 (infraestructura) está completo. Ahora estamos implementando autenticación con JWT.
+We're implementing JWT-based authentication.
 
-| Issue | Estado |
+| Issue | Status |
 |-------|--------|
 | MID-46 — BE Login + JWT | ✅ Done |
 | MID-45 — BE Register + bcrypt | ✅ Done |
@@ -18,17 +18,17 @@ Sprint 1 (infraestructura) está completo. Ahora estamos implementando autentica
 | MID-48 — FE Login view | 🔄 In Progress |
 | MID-47 — FE Register view | ⏳ Todo |
 | MID-75 — BE Refresh Token | ⏳ Todo |
-| MID-49 — Estado global auth (FE) | 📋 Backlog |
-| MID-50 — Interceptor Axios (FE) | 📋 Backlog |
+| MID-49 — Global auth state (FE) | 📋 Backlog |
+| MID-50 — Axios interceptor (FE) | 📋 Backlog |
 
-**Sprint progress**: 41% (vía Linear)
+**Sprint progress**: 41% (via Linear)
 
 ---
 
 ## What Exists vs What's Planned
 
-| Capa | Implementado | Planeado |
-|------|-------------|----------|
+| Layer | Implemented | Planned |
+|-------|-------------|---------|
 | **Backend** | User entity, AppDbContext, auth (register + login), JWT, bcrypt, EF migrations, health check | Accounts, Categories, Transactions, Gym (exercises, routines, workouts) |
 | **Frontend** | Vite + React skeleton, health check UI, generic API client | Login/Register pages, dashboard, finance CRUD, gym tracking UI |
 | **Infra** | Docker Compose (PostgreSQL + pgAdmin) | CI/CD, tests |
