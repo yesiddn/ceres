@@ -4,7 +4,7 @@ export function DashboardPage() {
   const { isAuthenticated, logout } = useAuth();
 
   return (
-    <main className="min-h-screen p-8">
+    <>
       <h1 className="text-2xl font-semibold">Dashboard</h1>
 
       <p className="mt-4">Estado: {isAuthenticated ? "Sesión iniciada" : "Sin autenticación"}</p>
@@ -18,6 +18,6 @@ export function DashboardPage() {
           Cerrar sesión
         </button>
       )}
-    </main>
+    </>
   );
 }
