@@ -6,15 +6,15 @@
 
 ## Current State
 
-**Only Identity/Auth is implemented.** Gym domain entities dirs are empty; no Finance code exists yet.
-**Current sprint**: Sprint 2 — Autenticación (MID-48 FE login in progress, MID-46 BE login done).
+**Only Identity/Auth is implemented (BE) + auth module (FE).** Backend: User entity, register/login, JWT, bcrypt. Frontend: `src/modules/auth` (LoginPage, AuthContext/AuthProvider, authService, zod schema), router + AppLayout. Gym/Finance domains empty; no Finance code exists yet.
+**Current sprint**: Sprint 2 — Autenticación (MID-48 FE login done, MID-46 BE login done). Sprint progress: 50% (4/8 done).
 
 | What | Exists? |
 |------|---------|
 | User entity, auth endpoints, JWT, bcrypt | ✅ |
 | EF Core migrations (User only) | ✅ |
+| Frontend src/modules/ (auth + router) | ✅ |
 | Gym/Finance domains | ❌ |
-| Frontend src/modules/ | ❌ |
 | Tests (any layer) | ❌ |
 | CI/CD, editorconfig | ❌ |
 

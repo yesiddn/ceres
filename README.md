@@ -15,13 +15,13 @@ We're implementing JWT-based authentication.
 | MID-46 — BE Login + JWT | ✅ Done |
 | MID-45 — BE Register + bcrypt | ✅ Done |
 | MID-44 — User entity + migrations | ✅ Done |
-| MID-48 — FE Login view | 🔄 In Progress |
+| MID-48 — FE Login view | ✅ Done |
 | MID-47 — FE Register view | ⏳ Todo |
 | MID-75 — BE Refresh Token | ⏳ Todo |
 | MID-49 — Global auth state (FE) | 📋 Backlog |
 | MID-50 — Axios interceptor (FE) | 📋 Backlog |
 
-**Sprint progress**: 41% (via Linear)
+**Sprint progress**: 50% (via Linear)
 
 ---
 
@@ -30,7 +30,7 @@ We're implementing JWT-based authentication.
 | Layer | Implemented | Planned |
 |-------|-------------|---------|
 | **Backend** | User entity, AppDbContext, auth (register + login), JWT, bcrypt, EF migrations, health check | Accounts, Categories, Transactions, Gym (exercises, routines, workouts) |
-| **Frontend** | Vite + React skeleton, health check UI, generic API client | Login/Register pages, dashboard, finance CRUD, gym tracking UI |
+| **Frontend** | Vite + React, `modules/auth` (login, AuthContext, authService), router + AppLayout, API client | Register page, dashboard, finance CRUD, gym tracking UI |
 | **Infra** | Docker Compose (PostgreSQL + pgAdmin) | CI/CD, tests |
 
 ---
