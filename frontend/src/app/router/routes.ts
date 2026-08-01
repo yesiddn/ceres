@@ -1,6 +1,6 @@
 import { AuthLayout } from "@/modules/auth/layouts/AuthLayout";
-import { Loginpage } from "@/modules/auth/pages/LoginPage";
-import { DashboardPage } from "@/modules/gym/pages/DashboardPage";
+import { LoginPage } from "@/modules/auth/pages/LoginPage";
+import { DashboardPage } from "@/modules/dashboard/pages/DashboardPage";
 import { NotFoundPage } from "@/shared/pages/NotFoundPage";
 import type { RouteObject } from "react-router";
 import { AppLayout } from "../layouts/AppLayout";
@@ -21,7 +21,7 @@ export const routes: RouteObject[] = [
     children: [
       {
         path: "/login",
-        Component: Loginpage,
+        Component: LoginPage,
       },
     ],
   },
