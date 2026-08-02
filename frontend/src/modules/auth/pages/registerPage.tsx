@@ -6,7 +6,7 @@ import type { RegisterRequest } from "../types/auth";
 import { register as registerRequestService } from "../services/authService";
 import axios from "axios";
 
-export function RegisterPager() {
+export function RegisterPage() {
   const navigate = useNavigate();
 
   const {
@@ -59,7 +59,7 @@ export function RegisterPager() {
 
       setError("root.server", {
         type: "server",
-        message: "Ocurreió un error inesperado. Intenta nuevamente.",
+        message: "Ocurrió un error inesperado. Intenta nuevamente.",
       });
     }
   }

@@ -4,7 +4,7 @@ import { DashboardPage } from "@/modules/dashboard/pages/DashboardPage";
 import { NotFoundPage } from "@/shared/pages/NotFoundPage";
 import type { RouteObject } from "react-router";
 import { AppLayout } from "../layouts/AppLayout";
-import { RegisterPager } from "@/modules/auth/pages/registerPage";
+import { RegisterPage } from "@/modules/auth/pages/registerPage";
 
 export const routes: RouteObject[] = [
   {
@@ -26,7 +26,7 @@ export const routes: RouteObject[] = [
       },
       {
         path: "/register",
-        Component: RegisterPager,
+        Component: RegisterPage,
       },
     ],
   },
