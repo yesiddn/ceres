@@ -5,8 +5,17 @@ export interface LoginRequest {
 
 export interface LoginResponse {
   accessToken: string;
-  user: {
-    id: string;
-    email: string;
-  };
+  user: UserResponse;
+}
+
+export interface RegisterRequest {
+  email: string;
+  password: string;
+}
+
+export interface RegisterResponse extends UserResponse {}
+
+export interface UserResponse {
+  id: string;
+  email: string;
 }

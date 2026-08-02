@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useAuth } from "../hooks/useAuth";
 import { loginSchema, type LoginFormValues } from "../schemas/loginSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -110,11 +110,18 @@ export function LoginPage() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full rounded-md bg-slate-900 px-4 py-2 font-medium text-white disabled:cursor-not-allowed disabled:opacity-60"
+          className="w-full cursor-pointer rounded-md bg-slate-900 px-4 py-2 font-medium text-white disabled:cursor-not-allowed disabled:opacity-60"
         >
           {isSubmitting ? "Iniciando sesión..." : "Iniciar sesión"}
         </button>
       </form>
+
+      <p className="text-center text-sm mt-4">
+        ¿No tienes una cuenta?{" "}
+        <Link to="/register" className="font-medium underline">
+          Regístrate
+        </Link>
+      </p>
     </section>
   );
 }
