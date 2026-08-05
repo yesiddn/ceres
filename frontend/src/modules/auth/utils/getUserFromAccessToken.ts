@@ -1,7 +1,7 @@
 import type { AuthTokenPayload, AuthUser } from "../types/auth";
 import { decodeJwtPayload } from "./decodeJwtPayload";
 
-export function getUserFromAcessToken(accessToken: string): AuthUser {
+export function getUserFromAccessToken(accessToken: string): AuthUser {
   const payload = decodeJwtPayload<AuthTokenPayload>(accessToken);
 
   return {
