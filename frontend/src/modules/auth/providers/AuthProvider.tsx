@@ -1,7 +1,7 @@
 import { useState, type ReactNode } from "react";
 import { AuthContext, type AuthContextValue } from "../context/AuthContext";
 import type { AuthUser } from "../types/auth";
-import { getUserFromAcessToken } from "../utils/getUserFromAccessToken";
+import { getUserFromAccessToken } from "../utils/getUserFromAccessToken";
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -12,7 +12,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<AuthUser | null>(null);
 
   const login = (token: string) => {
-    const authenticatedUser = getUserFromAcessToken(token);
+    const authenticatedUser = getUserFromAccessToken(token);
 
     setAccessToken(token);
     setUser(authenticatedUser);
