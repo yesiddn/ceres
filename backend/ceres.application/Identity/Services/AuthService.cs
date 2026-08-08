@@ -7,7 +7,6 @@ using ceres.application.Identity.Interfaces;
 using ceres.application.Identity.Mappers;
 using ceres.application.Identity.Options;
 using ceres.domain.Identity.Entities;
-using ceres.infrastructure.Repositories.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 

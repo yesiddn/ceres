@@ -1,6 +1,6 @@
 using ceres.domain.Identity.Entities;
 
-namespace ceres.infrastructure.Repositories.Identity;
+namespace ceres.application.Identity.Interfaces;
 
 public interface IUserRepository
 {

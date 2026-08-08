@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\ceres.infrastructure\ceres.infrastructure.csproj" />
+        <ProjectReference Include="..\ceres.domain\ceres.domain.csproj" />
     </ItemGroup>
 
     <ItemGroup>
