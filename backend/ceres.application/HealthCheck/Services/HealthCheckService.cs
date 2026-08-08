@@ -1,12 +1,11 @@
 using ceres.application.HealthCheck.Interfaces;
-using ceres.infrastructure.persistence;
 
 namespace ceres.application.HealthCheck.Services;
 
-public sealed class HealthCheckService(AppDbContext dbContext) : IHealthCheckService
+public sealed class HealthCheckService(IDatabaseHealthCheck databaseHealthCheck) : IHealthCheckService
 {
     public async Task<bool> CanConnectToDatabaseAsync(CancellationToken cancellationToken = default)
     {
-        return await dbContext.Database.CanConnectAsync(cancellationToken);
+        return await databaseHealthCheck.CanConnectAsync(cancellationToken);
     }
 }

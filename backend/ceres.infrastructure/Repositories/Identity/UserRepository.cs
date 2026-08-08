@@ -1,3 +1,4 @@
+using ceres.application.Identity.Interfaces;
 using ceres.domain.Identity.Entities;
 using ceres.infrastructure.persistence;
 using Microsoft.EntityFrameworkCore;
