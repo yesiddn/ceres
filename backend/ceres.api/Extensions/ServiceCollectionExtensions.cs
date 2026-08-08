@@ -2,7 +2,7 @@ using ceres.application.HealthCheck.Interfaces;
 using ceres.application.HealthCheck.Services;
 using ceres.application.Identity.Interfaces;
 using ceres.application.Identity.Services;
-using ceres.domain.Identity.Entities;
+using ceres.infrastructure.HealthCheck;
 using ceres.infrastructure.Repositories.Identity;
 
 namespace ceres.api.Extensions;
@@ -19,6 +19,7 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
     {
+        services.AddScoped<IDatabaseHealthCheck, DatabaseHealthCheck>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
         return services;
