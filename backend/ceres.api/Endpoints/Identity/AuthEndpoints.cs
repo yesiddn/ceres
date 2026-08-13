@@ -8,6 +8,7 @@ namespace ceres.api.Endpoints.Identity;
 
 public static class AuthEndpoints
 {
+    private const string RefreshTokenCookieName = "ceres.refreshToken";
     public static RouteGroupBuilder MapAuthEndpoints(this RouteGroupBuilder api)
     {
         var auth = api.MapGroup("/auth").WithTags("Auth");
@@ -27,6 +28,14 @@ public static class AuthEndpoints
             .Produces(StatusCodes.Status401Unauthorized)
             .WithSummary("Logins a user")
             .WithDescription("Logins a user");
+
+        auth.MapPost("/refresh", RefreshAsync)
+            .WithName("Refresh")
+            .Produces<AuthResponse>(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status401Unauthorized)
+            .WithSummary("Refreshes the authentication session")
+            .WithDescription("Rotates the refresh token and returns a new access token");
+
         return api;
     }
 
@@ -63,16 +72,109 @@ public static class AuthEndpoints
         LoginAsync(
             LoginRequest request,
             IAuthService authService,
+            HttpResponse response,
+            IWebHostEnvironment environment,
             CancellationToken cancellationToken
         )
     {
         var result = await authService.LoginAsync(request, cancellationToken);
 
-        return result.Status switch
+        if (result.Status == LoginStatus.InvalidCredentials)
         {
-            LoginStatus.Success => TypedResults.Ok(result.Auth),
-            LoginStatus.InvalidCredentials => TypedResults.Unauthorized(),
-            _ => throw new InvalidOperationException($"Unknown login status: {result.Status}"),
+            return TypedResults.Unauthorized();
+        }
+
+        if (result.Status != LoginStatus.Success)
+        {
+            throw new InvalidOperationException($"Unknown login status: {result.Status}");
+        }
+
+        AppendRefreshTokenCookie(
+            response,
+            result.RefreshToken!,
+            environment.IsDevelopment());
+
+        return TypedResults.Ok(result.Auth);
+    }
+
+    private static async Task<Results<
+            Ok<AuthResponse>,
+            UnauthorizedHttpResult>>
+        RefreshAsync(
+            HttpRequest request,
+            HttpResponse response,
+            IAuthService authService,
+            IWebHostEnvironment environment,
+            CancellationToken cancellationToken)
+    {
+        if (!request.Cookies.TryGetValue(
+                RefreshTokenCookieName,
+                out var refreshToken) ||
+            string.IsNullOrWhiteSpace(refreshToken))
+        {
+            DeleteRefreshTokenCookie(response);
+
+            return TypedResults.Unauthorized();
+        }
+
+        var result =
+            await authService.RefreshAsync(
+                refreshToken,
+                cancellationToken);
+
+        if (result.Status ==
+            RefreshStatus.InvalidToken)
+        {
+            DeleteRefreshTokenCookie(response);
+
+            return TypedResults.Unauthorized();
+        }
+
+        if (result.Status !=
+            RefreshStatus.Success)
+        {
+            throw new InvalidOperationException(
+                $"Unknown refresh status: {result.Status}");
+        }
+
+        AppendRefreshTokenCookie(
+            response,
+            result.IssuedRefreshToken!,
+            environment.IsDevelopment());
+
+        return TypedResults.Ok(
+            result.Auth!);
+    }
+
+    private static void AppendRefreshTokenCookie(
+        HttpResponse response,
+        IssuedRefreshToken refreshToken,
+        bool isDevelopment)
+    {
+        var cookieOptions = new CookieOptions
+        {
+            HttpOnly = true,
+            Secure = !isDevelopment,
+            SameSite = SameSiteMode.Lax,
+            Expires = new DateTimeOffset(
+                refreshToken.ExpiresAt),
+            Path = "/api/auth"
         };
+
+        response.Cookies.Append(
+            RefreshTokenCookieName,
+            refreshToken.Value,
+            cookieOptions);
+    }
+
+    private static void DeleteRefreshTokenCookie(
+        HttpResponse response)
+    {
+        response.Cookies.Delete(
+            RefreshTokenCookieName,
+            new CookieOptions
+            {
+                Path = "/api/auth"
+            });
     }
 }
