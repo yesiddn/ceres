@@ -17,5 +17,14 @@ public sealed class JwtOptions
     public string SecretKey { get; init; } = string.Empty;
 
     [Required(ErrorMessage = "Jwt:ExpiryMinutes is required.")]
-    public string ExpiryMinutes  { get; set; } = string.Empty;
+    [Range(1, int.MaxValue, ErrorMessage = "Jwt:ExpiryMinutes must be greater than zero.")]
+    public int ExpiryMinutes  { get; init; }
+
+    [Required(ErrorMessage = "Jwt:Issuer is required.")]
+    [Range(1, int.MaxValue, ErrorMessage = "Jwt:RefreshTokenLifetimeDays must be greater than zero.")]
+    public int RefreshTokenLifetimeDays  { get; init; }
+
+    [Required(ErrorMessage = "Jwt:Issuer is required.")]
+    [Range(1, int.MaxValue, ErrorMessage = "Jwt:RefreshTokenSizeInBytes must be greater than zero.")]
+    public int RefreshTokenSizeInBytes  { get; init; }
 }
