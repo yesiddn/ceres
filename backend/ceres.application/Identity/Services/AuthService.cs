@@ -58,7 +58,7 @@ public sealed class AuthService (IPasswordHasher passwordHasher, IUserRepository
 
         var refreshToken = GenerateRefreshToken();
         var refreshTokenHash = HashRefreshToken(refreshToken);
-        var refreshTokenExpiresAt = DateTime.UtcNow.AddMinutes(_jwtOptions.RefreshTokenLifetimeDays);
+        var refreshTokenExpiresAt = DateTime.UtcNow.AddDays(_jwtOptions.RefreshTokenLifetimeDays);
 
         var refreshTokenEntity = new RefreshToken
         {
