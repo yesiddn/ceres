@@ -5,7 +5,7 @@ export interface LoginRequest {
 
 export interface LoginResponse {
   accessToken: string;
-  user: AuthUser;
+  expiresIn: number;
 }
 
 export interface RegisterRequest {
