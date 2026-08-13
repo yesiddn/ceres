@@ -16,16 +16,6 @@ public static class UserMapper
         };
     }
 
-    private static UserResponse ToUserResponse(this User user)
-    {
-        return new UserResponse(user.Id, user.Email, user.CreatedAt);
-    }
-
-    public static AuthResponse ToAuthResponse(this User user, string accessToken)
-    {
-        return new AuthResponse(accessToken, user.ToUserResponse());
-    }
-
     // TODO: remove when register flow implement jwt
     public static RegisterResponse ToResponse(this User user)
     {

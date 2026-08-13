@@ -11,6 +11,7 @@ public sealed class RefreshTokenRepository(AppDbContext dbContext) : IRefreshTok
     public Task<RefreshToken?> FindByHashAsync(string tokenHash, CancellationToken cancellationToken = default)
     {
         return _dbContext.RefreshTokens
+            .Include(refreshToken => refreshToken.User)
             .SingleOrDefaultAsync(refreshToken => refreshToken.TokenHash == tokenHash, cancellationToken);
     }
 
