@@ -1,5 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using ceres.application.Identity.DTOs;
 using ceres.application.Identity.Enums;
@@ -12,7 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace ceres.application.Identity.Services;
 
-public sealed class AuthService (IPasswordHasher passwordHasher, IUserRepository userRepository, IOptions<JwtOptions> jwtOptions) : IAuthService
+public sealed class AuthService (IPasswordHasher passwordHasher, IUserRepository userRepository, IRefreshTokenRepository refreshTokenRepository, IOptions<JwtOptions> jwtOptions) : IAuthService
 {
     private const string DummyPasswordHash = "$2a$11$HpQAYQHVck/O1zYZPMuoPeibQAFCpwN60WXJTlS766/RvW1NML5ny";
     private readonly JwtOptions _jwtOptions = jwtOptions.Value;
@@ -52,9 +53,72 @@ public sealed class AuthService (IPasswordHasher passwordHasher, IUserRepository
         if (!isPasswordValid)
             return new LoginResult(LoginStatus.InvalidCredentials);
 
-        var token = GenerateJwtToken(user);
+        var accessToken = GenerateJwtToken(user);
+        var jwtExpiresIn = _jwtOptions.ExpiryMinutes * 60;
 
-        return new LoginResult(LoginStatus.Success, user.ToAuthResponse(token));
+        var refreshToken = GenerateRefreshToken();
+        var refreshTokenHash = HashRefreshToken(refreshToken);
+        var refreshTokenExpiresAt = DateTime.UtcNow.AddMinutes(_jwtOptions.RefreshTokenLifetimeDays);
+
+        var refreshTokenEntity = new RefreshToken
+        {
+            TokenHash = refreshTokenHash,
+            UserId = user.Id,
+            ExpiresAt = refreshTokenExpiresAt
+        };
+
+        await refreshTokenRepository.AddAsync(
+            refreshTokenEntity,
+            cancellationToken);
+        await refreshTokenRepository.SaveChangesAsync(cancellationToken);
+
+        return new LoginResult(
+            LoginStatus.Success,
+            new AuthResponse(accessToken, jwtExpiresIn),
+            new IssuedRefreshToken(refreshToken, refreshTokenExpiresAt));
+    }
+
+    public async Task<RefreshResult> RefreshAsync(string refreshToken, CancellationToken cancellationToken = default)
+    {
+        if (string.IsNullOrWhiteSpace(refreshToken))
+        {
+            return new RefreshResult(
+                RefreshStatus.InvalidToken);
+        }
+
+        var tokenHash = HashRefreshToken(refreshToken);
+
+        var storedToken = await refreshTokenRepository.FindByHashAsync(tokenHash, cancellationToken);
+
+        if (storedToken is null
+            || storedToken.RevokedAt is not null
+            || storedToken.ExpiresAt <= DateTime.UtcNow)
+        {
+            return new RefreshResult(RefreshStatus.InvalidToken);
+        }
+
+        var newAccessToken = GenerateJwtToken(storedToken.User);
+        var newAccessTokenExpiresIn = _jwtOptions.ExpiryMinutes * 60;
+
+        var newRefreshToken = GenerateRefreshToken();
+        var newRefreshTokenHash = HashRefreshToken(newRefreshToken);
+        var newRefreshTokenExpiresAt = DateTime.UtcNow.AddDays(_jwtOptions.RefreshTokenLifetimeDays);
+
+        var newRefreshTokenEntity = new RefreshToken
+        {
+            TokenHash = newRefreshTokenHash,
+            UserId = storedToken.User.Id,
+            ExpiresAt = newRefreshTokenExpiresAt
+        };
+
+        refreshTokenRepository.Revoke(storedToken, DateTime.UtcNow, newRefreshTokenHash);
+        await refreshTokenRepository.AddAsync(newRefreshTokenEntity, cancellationToken);
+        await refreshTokenRepository.SaveChangesAsync(cancellationToken);
+
+        return new RefreshResult(
+            RefreshStatus.Success,
+            new AuthResponse(newAccessToken, newAccessTokenExpiresIn),
+            new IssuedRefreshToken(newRefreshToken, newRefreshTokenExpiresAt));
     }
 
     private string GenerateJwtToken(User user)
@@ -63,8 +127,6 @@ public sealed class AuthService (IPasswordHasher passwordHasher, IUserRepository
 
         var audience = _jwtOptions.Audience;
         var secretKey = _jwtOptions.SecretKey;
-
-        var expirationTime = _jwtOptions.ExpiryMinutes;
 
         var key   = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -80,10 +142,29 @@ public sealed class AuthService (IPasswordHasher passwordHasher, IUserRepository
             issuer: issuer,
             audience: audience,
             claims: claims,
-            expires: DateTime.UtcNow.AddMinutes(Convert.ToDouble(expirationTime)),
+            expires: DateTime.UtcNow.AddMinutes(_jwtOptions.ExpiryMinutes),
             signingCredentials: creds
         );
 
         return new JwtSecurityTokenHandler().WriteToken(token);
+    }
+
+    private string GenerateRefreshToken()
+    {
+        var bytes = RandomNumberGenerator.GetBytes(_jwtOptions.RefreshTokenSizeInBytes);
+
+        return Convert
+            .ToBase64String(bytes)
+            .TrimEnd('=')
+            .Replace('+', '-')
+            .Replace('/', '_');
+    }
+
+    private static string HashRefreshToken(string refreshToken)
+    {
+        var bytes = Encoding.UTF8.GetBytes(refreshToken);
+        var hash = SHA256.HashData(bytes);
+
+        return Convert.ToHexString(hash);
     }
 }
