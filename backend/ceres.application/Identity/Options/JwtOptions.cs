@@ -20,11 +20,11 @@ public sealed class JwtOptions
     [Range(1, int.MaxValue, ErrorMessage = "Jwt:ExpiryMinutes must be greater than zero.")]
     public int ExpiryMinutes  { get; init; }
 
-    [Required(ErrorMessage = "Jwt:Issuer is required.")]
+    [Required(ErrorMessage = "Jwt:RefreshTokenLifetimeDays is required.")]
     [Range(1, int.MaxValue, ErrorMessage = "Jwt:RefreshTokenLifetimeDays must be greater than zero.")]
     public int RefreshTokenLifetimeDays  { get; init; }
 
-    [Required(ErrorMessage = "Jwt:Issuer is required.")]
+    [Required(ErrorMessage = "Jwt:RefreshTokenSizeInBytes is required.")]
     [Range(1, int.MaxValue, ErrorMessage = "Jwt:RefreshTokenSizeInBytes must be greater than zero.")]
     public int RefreshTokenSizeInBytes  { get; init; }
 }
