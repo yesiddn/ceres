@@ -18,3 +18,7 @@ export async function refresh(): Promise<AuthResponse> {
 
   return response.data;
 }
+
+export async function logout(): Promise<void> {
+  await apiClient.post("/auth/logout");
+}

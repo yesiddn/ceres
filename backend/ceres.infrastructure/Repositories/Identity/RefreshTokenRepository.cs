@@ -8,6 +8,8 @@ namespace ceres.infrastructure.Repositories.Identity;
 public sealed class RefreshTokenRepository(AppDbContext dbContext) : IRefreshTokenRepository
 {
     private readonly AppDbContext _dbContext = dbContext;
+
+    // TODO: Create a new method to find by hash but without including the user
     public Task<RefreshToken?> FindByHashAsync(string tokenHash, CancellationToken cancellationToken = default)
     {
         return _dbContext.RefreshTokens
