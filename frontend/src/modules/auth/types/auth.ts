@@ -3,7 +3,7 @@ export interface LoginRequest {
   password: string;
 }
 
-export interface LoginResponse {
+export interface AuthResponse {
   accessToken: string;
   expiresIn: number;
 }
