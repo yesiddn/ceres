@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from "react";
+import { useCallback, useState, type ReactNode } from "react";
 import { AuthContext, type AuthContextValue } from "../context/AuthContext";
 import type { AuthUser } from "../types/auth";
 import { getUserFromAccessToken } from "../utils/getUserFromAccessToken";
@@ -11,17 +11,17 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [user, setUser] = useState<AuthUser | null>(null);
 
-  const login = (token: string) => {
+  const login = useCallback((token: string) => {
     const authenticatedUser = getUserFromAccessToken(token);
 
     setAccessToken(token);
     setUser(authenticatedUser);
-  };
+  }, []);
 
-  const logout = () => {
+  const logout = useCallback(() => {
     setAccessToken(null);
     setUser(null);
-  };
+  }, []);
 
   const value: AuthContextValue = {
     user,
