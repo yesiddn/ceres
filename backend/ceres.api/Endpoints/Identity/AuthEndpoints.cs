@@ -36,6 +36,13 @@ public static class AuthEndpoints
             .WithSummary("Refreshes the authentication session")
             .WithDescription("Rotates the refresh token and returns a new access token");
 
+        auth.MapPost("/logout", LogoutAsync)
+            .AllowAnonymous()
+            .WithName("Logout")
+            .Produces(StatusCodes.Status204NoContent)
+            .WithSummary("Logs out the current session")
+            .WithDescription("Revokes the refresh token and removes its cookie");
+
         return api;
     }
 
@@ -144,6 +151,25 @@ public static class AuthEndpoints
 
         return TypedResults.Ok(
             result.Auth!);
+    }
+
+    private static async Task<NoContent> LogoutAsync(
+        HttpRequest request,
+        HttpResponse response,
+        IAuthService authService,
+        CancellationToken cancellationToken)
+    {
+        request.Cookies.TryGetValue(
+            RefreshTokenCookieName,
+            out var refreshToken);
+
+        await authService.LogoutAsync(
+            refreshToken,
+            cancellationToken);
+
+        DeleteRefreshTokenCookie(response);
+
+        return TypedResults.NoContent();
     }
 
     private static void AppendRefreshTokenCookie(
