@@ -121,6 +121,37 @@ public sealed class AuthService (IPasswordHasher passwordHasher, IUserRepository
             new IssuedRefreshToken(newRefreshToken, newRefreshTokenExpiresAt));
     }
 
+    public async Task LogoutAsync(string? refreshToken, CancellationToken cancellationToken = default)
+    {
+        if (string.IsNullOrWhiteSpace(refreshToken))
+        {
+            return;
+        }
+
+        var tokenHash = HashRefreshToken(refreshToken);
+
+        var storedToken = await refreshTokenRepository.FindByHashAsync(tokenHash, cancellationToken);
+
+        if (storedToken is null)
+        {
+            return;
+        }
+
+        if (storedToken.RevokedAt is not null)
+        {
+            return;
+        }
+
+        if (storedToken.ExpiresAt <= DateTime.UtcNow)
+        {
+            return;
+        }
+
+        refreshTokenRepository.Revoke(storedToken, DateTime.UtcNow);
+
+        await refreshTokenRepository.SaveChangesAsync(cancellationToken);
+    }
+
     private string GenerateJwtToken(User user)
     {
         var issuer = _jwtOptions.Issuer;
