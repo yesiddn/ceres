@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 import { useAuth } from "./useAuth";
 import { logout as logoutRequest } from "../services/authService";
+import { broadcastLogout } from "../services/authChannel";
 
 export function useLogout() {
   const { logout: clearLocalSession } = useAuth();
@@ -10,6 +11,7 @@ export function useLogout() {
       await logoutRequest();
     } finally {
       clearLocalSession();
+      broadcastLogout();
     }
   }, [clearLocalSession]);
 }
