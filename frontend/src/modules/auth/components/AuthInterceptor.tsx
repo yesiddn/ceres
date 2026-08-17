@@ -4,6 +4,8 @@ import apiClient from "@/shared/services/api/apiClient";
 import type { InternalAxiosRequestConfig } from "axios";
 import { refresh as refreshRequest } from "../services/authService";
 import axios from "axios";
+import { recoverAccessToken } from "../services/authSessionService";
+import { broadcastLogout } from "../services/authChannel";
 
 const REFRESH_EXCLUDED_ENDPOINTS = [
   "/auth/login",
@@ -33,20 +35,28 @@ export function AuthInterceptor() {
   useEffect(() => {
     let refreshPromise: Promise<string> | null = null;
 
-    const getFreshAccessToken = () => {
+    const getFreshAccessToken = (rejectedAccessToken: string | null) => {
       if (!refreshPromise) {
-        refreshPromise = refreshRequest()
-          .then(({ accessToken }) => {
+        refreshPromise = recoverAccessToken({
+          getCurrentAccessToken: () => accessTokenRef.current,
+          rejectedAccessToken,
+        })
+          .then((accessToken) => {
             accessTokenRef.current = accessToken;
+
             login(accessToken);
 
             return accessToken;
           })
           .catch((error: unknown) => {
-            accessTokenRef.current = null;
-            logout();
+            if (axios.isAxiosError(error) && error.response?.status === 401) {
+              accessTokenRef.current = null;
 
-            window.location.replace("/login");
+              logout();
+              broadcastLogout();
+
+              window.location.replace("/login");
+            }
 
             throw error;
           })
@@ -94,7 +104,13 @@ export function AuthInterceptor() {
         originalRequest._retry = true;
 
         try {
-          const newAccessToken = await getFreshAccessToken();
+          const authorizationHeader = originalRequest.headers.get("Authorization");
+          const rejectedAccessToken =
+            typeof authorizationHeader === "string" && authorizationHeader.startsWith("Bearer ")
+              ? authorizationHeader.slice("Bearer ".length)
+              : null;
+
+          const newAccessToken = await getFreshAccessToken(rejectedAccessToken);
 
           originalRequest.headers.set("Authorization", `Bearer ${newAccessToken}`);
 
