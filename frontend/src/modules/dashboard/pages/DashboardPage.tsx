@@ -1,7 +1,8 @@
 import { useAuth } from "@/modules/auth/hooks/useAuth";
 
 export function DashboardPage() {
-  const { isAuthenticated, logout } = useAuth();
+  const { isAuthenticated } = useAuth();
+  const logout = useLogout();
 
   return (
     <>
