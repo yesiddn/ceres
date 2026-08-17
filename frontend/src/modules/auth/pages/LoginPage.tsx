@@ -5,6 +5,7 @@ import { loginSchema, type LoginFormValues } from "../schemas/loginSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { login as loginRequest } from "../services/authService";
 import axios from "axios";
+import { broadcastAccessToken } from "../services/authChannel";
 
 export function LoginPage() {
   const navigate = useNavigate();
@@ -31,6 +32,8 @@ export function LoginPage() {
       });
 
       auth.login(response.accessToken);
+
+      broadcastAccessToken(response.accessToken);
 
       navigate("/", {
         replace: true,

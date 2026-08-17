@@ -18,7 +18,9 @@ export function decodeJwtPayload<T>(token: string): T {
 
   const normalizedPayload = payload.replace(/-/g, "+").replace(/_/g, "/");
 
-  const decodedPayload = atob(normalizedPayload);
+  const paddedPayload = normalizedPayload.padEnd(Math.ceil(normalizedPayload.length / 4) * 4, "=");
+
+  const decodedPayload = atob(paddedPayload);
 
   return JSON.parse(decodedPayload) as T;
 }
