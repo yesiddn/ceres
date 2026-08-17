@@ -2,7 +2,6 @@ import { useEffect, useLayoutEffect, useRef } from "react";
 import { useAuth } from "../hooks/useAuth";
 import apiClient from "@/shared/services/api/apiClient";
 import type { InternalAxiosRequestConfig } from "axios";
-import { refresh as refreshRequest } from "../services/authService";
 import axios from "axios";
 import { recoverAccessToken } from "../services/authSessionService";
 import { broadcastLogout } from "../services/authChannel";
