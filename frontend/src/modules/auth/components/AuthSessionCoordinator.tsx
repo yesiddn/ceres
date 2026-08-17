@@ -44,6 +44,10 @@ export function AuthSessionCoordinator({ children }: AuthSessionCoordinatorProps
       .catch(() => {
         if (!active) return;
 
+        if (isAccessTokenUsable(accessTokenRef.current)) {
+          return;
+        }
+
         accessTokenRef.current = null;
 
         logout();
