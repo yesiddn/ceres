@@ -5,28 +5,40 @@ import { NotFoundPage } from "@/shared/pages/NotFoundPage";
 import type { RouteObject } from "react-router";
 import { AppLayout } from "../layouts/AppLayout";
 import { RegisterPage } from "@/modules/auth/pages/registerPage";
+import { ProtectedRoute } from "../guards/ProtectedRoute";
+import { PublicOnlyRoute } from "../guards/PublicOnlyRoute";
 
 export const routes: RouteObject[] = [
   {
-    path: "/",
-    Component: AppLayout,
+    Component: ProtectedRoute,
     children: [
       {
-        index: true,
-        Component: DashboardPage,
+        path: "/",
+        Component: AppLayout,
+        children: [
+          {
+            index: true,
+            Component: DashboardPage,
+          },
+        ],
       },
     ],
   },
   {
-    Component: AuthLayout,
+    Component: PublicOnlyRoute,
     children: [
       {
-        path: "/login",
-        Component: LoginPage,
-      },
-      {
-        path: "/register",
-        Component: RegisterPage,
+        Component: AuthLayout,
+        children: [
+          {
+            path: "/login",
+            Component: LoginPage,
+          },
+          {
+            path: "/register",
+            Component: RegisterPage,
+          },
+        ],
       },
     ],
   },
