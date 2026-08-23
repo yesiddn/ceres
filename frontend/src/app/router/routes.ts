@@ -1,12 +1,14 @@
 import { AuthLayout } from "@/modules/auth/layouts/AuthLayout";
 import { LoginPage } from "@/modules/auth/pages/LoginPage";
-import { DashboardPage } from "@/modules/dashboard/pages/DashboardPage";
 import { NotFoundPage } from "@/shared/pages/NotFoundPage";
-import type { RouteObject } from "react-router";
+import { replace, type RouteObject } from "react-router";
 import { AppLayout } from "../layouts/AppLayout";
 import { RegisterPage } from "@/modules/auth/pages/registerPage";
 import { ProtectedRoute } from "../guards/ProtectedRoute";
 import { PublicOnlyRoute } from "../guards/PublicOnlyRoute";
+import { RoutinesPages } from "@/modules/gym/routines/pages/RoutinesPage";
+import { ExercisesPage } from "@/modules/gym/exercises/pages/ExercisesPage";
+import { WorkoutsPage } from "@/modules/gym/workouts/pages/WorkoutPage";
 
 export const routes: RouteObject[] = [
   {
@@ -18,7 +20,19 @@ export const routes: RouteObject[] = [
         children: [
           {
             index: true,
-            Component: DashboardPage,
+            loader: () => replace("/gym/routines"),
+          },
+          {
+            path: "gym/routines",
+            Component: RoutinesPages,
+          },
+          {
+            path: "gym/workouts",
+            Component: WorkoutsPage,
+          },
+          {
+            path: "gym/exercises",
+            Component: ExercisesPage,
           },
         ],
       },
