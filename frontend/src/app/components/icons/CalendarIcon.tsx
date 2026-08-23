@@ -8,6 +8,7 @@ export function CalendarIcon({ className }: IconProps) {
       viewBox="0 0 24 24"
       width="24"
       height="24"
+      aria-hidden="true"
     >
       <path
         fill="currentColor"
