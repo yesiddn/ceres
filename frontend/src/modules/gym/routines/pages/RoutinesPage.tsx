@@ -1,4 +1,4 @@
-export function RoutinesPages() {
+export function RoutinesPage() {
   return (
     <section>
       <h1 className="text-2xl font-semibold">Rutinas</h1>

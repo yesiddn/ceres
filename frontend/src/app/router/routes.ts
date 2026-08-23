@@ -6,9 +6,9 @@ import { AppLayout } from "../layouts/AppLayout";
 import { RegisterPage } from "@/modules/auth/pages/registerPage";
 import { ProtectedRoute } from "../guards/ProtectedRoute";
 import { PublicOnlyRoute } from "../guards/PublicOnlyRoute";
-import { RoutinesPages } from "@/modules/gym/routines/pages/RoutinesPage";
+import { RoutinesPage } from "@/modules/gym/routines/pages/RoutinesPage";
 import { ExercisesPage } from "@/modules/gym/exercises/pages/ExercisesPage";
-import { WorkoutsPage } from "@/modules/gym/workouts/pages/WorkoutPage";
+import { WorkoutsPage } from "@/modules/gym/workouts/pages/WorkoutsPage";
 
 export const routes: RouteObject[] = [
   {
@@ -24,7 +24,7 @@ export const routes: RouteObject[] = [
           },
           {
             path: "gym/routines",
-            Component: RoutinesPages,
+            Component: RoutinesPage,
           },
           {
             path: "gym/workouts",
