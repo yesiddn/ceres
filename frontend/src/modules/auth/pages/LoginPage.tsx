@@ -10,7 +10,6 @@ import { broadcastAccessToken } from "../services/authChannel";
 export function LoginPage() {
   const navigate = useNavigate();
   const auth = useAuth();
-  const valueCI: string = 123;
 
   const {
     register,
