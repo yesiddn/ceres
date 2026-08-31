@@ -17,10 +17,110 @@ namespace ceres.infrastructure.persistence.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.10")
+                .HasAnnotation("ProductVersion", "10.0.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("ceres.domain.Gym.Entities.Exercise", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("MuscleGroup")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("IX_Exercises_UserId");
+
+                    b.ToTable("Exercises", "gym");
+                });
+
+            modelBuilder.Entity("ceres.domain.Gym.Entities.Routine", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<int>("ScheduledDays")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("IX_Routines_UserId");
+
+                    b.ToTable("Routines", "gym");
+                });
+
+            modelBuilder.Entity("ceres.domain.Gym.Entities.RoutineExercise", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ExerciseId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("GroupId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("RestTimeSeconds")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("RoutineId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("TargetReps")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("TargetSets")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExerciseId")
+                        .HasDatabaseName("IX_RoutineExercises_ExerciseId");
+
+                    b.HasIndex("RoutineId", "Order")
+                        .IsUnique()
+                        .HasDatabaseName("IX_RoutineExercises_RoutineId_Order");
+
+                    b.ToTable("RoutineExercises", "gym", t =>
+                        {
+                            t.HasCheckConstraint("CK_RoutineExercises_Order", "\"Order\" >= 1");
+
+                            t.HasCheckConstraint("CK_RoutineExercises_RestTimeSeconds", "\"RestTimeSeconds\" >= 0");
+
+                            t.HasCheckConstraint("CK_RoutineExercises_TargetReps", "\"TargetReps\" >= 1");
+
+                            t.HasCheckConstraint("CK_RoutineExercises_TargetSets", "\"TargetSets\" >= 1");
+                        });
+                });
 
             modelBuilder.Entity("ceres.domain.Identity.Entities.RefreshToken", b =>
                 {
@@ -96,6 +196,46 @@ namespace ceres.infrastructure.persistence.Migrations
                     b.ToTable("Users", "identity");
                 });
 
+            modelBuilder.Entity("ceres.domain.Gym.Entities.Exercise", b =>
+                {
+                    b.HasOne("ceres.domain.Identity.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ceres.domain.Gym.Entities.Routine", b =>
+                {
+                    b.HasOne("ceres.domain.Identity.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ceres.domain.Gym.Entities.RoutineExercise", b =>
+                {
+                    b.HasOne("ceres.domain.Gym.Entities.Exercise", "Exercise")
+                        .WithMany()
+                        .HasForeignKey("ExerciseId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("ceres.domain.Gym.Entities.Routine", "Routine")
+                        .WithMany("Exercises")
+                        .HasForeignKey("RoutineId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Exercise");
+
+                    b.Navigation("Routine");
+                });
+
             modelBuilder.Entity("ceres.domain.Identity.Entities.RefreshToken", b =>
                 {
                     b.HasOne("ceres.domain.Identity.Entities.User", "User")
@@ -105,6 +245,11 @@ namespace ceres.infrastructure.persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ceres.domain.Gym.Entities.Routine", b =>
+                {
+                    b.Navigation("Exercises");
                 });
 
             modelBuilder.Entity("ceres.domain.Identity.Entities.User", b =>
