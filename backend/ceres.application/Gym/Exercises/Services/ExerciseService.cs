@@ -52,14 +52,6 @@ public sealed class ExerciseService(IExerciseRepository exerciseRepository) : IE
         ExerciseRequest request,
         CancellationToken cancellationToken = default)
     {
-        var validationStatus = Validate(request);
-
-        if (validationStatus is not null)
-        {
-            return new ExerciseResult(
-                validationStatus.Value);
-        }
-
         var exercise = new Exercise
         {
             Name = request.Name.Trim(),
@@ -85,14 +77,6 @@ public sealed class ExerciseService(IExerciseRepository exerciseRepository) : IE
         ExerciseRequest request,
         CancellationToken cancellationToken = default)
     {
-        var validationStatus = Validate(request);
-
-        if (validationStatus is not null)
-        {
-            return new ExerciseResult(
-                validationStatus.Value);
-        }
-
         var exercise =
             await exerciseRepository.FindOwnedByIdAsync(
                 exerciseId,
@@ -151,23 +135,5 @@ public sealed class ExerciseService(IExerciseRepository exerciseRepository) : IE
 
         return new ExerciseResult(
             ExerciseStatus.Success);
-    }
-
-    private static ExerciseStatus? Validate(
-        ExerciseRequest request)
-    {
-        if (string.IsNullOrWhiteSpace(request.Name) ||
-            request.Name.Trim().Length > MaxNameLength)
-        {
-            return ExerciseStatus.InvalidName;
-        }
-
-        if (string.IsNullOrWhiteSpace(request.MuscleGroup) ||
-            request.MuscleGroup.Trim().Length > MaxMuscleGroupLength)
-        {
-            return ExerciseStatus.InvalidMuscleGroup;
-        }
-
-        return null;
     }
 }
