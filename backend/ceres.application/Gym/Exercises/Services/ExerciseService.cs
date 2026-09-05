@@ -8,9 +8,6 @@ namespace ceres.application.Gym.Exercises.Services;
 
 public sealed class ExerciseService(IExerciseRepository exerciseRepository) : IExerciseService
 {
-    private const int MaxNameLength = 100;
-    private const int MaxMuscleGroupLength = 50;
-
     public async Task<IReadOnlyList<ExerciseResponse>> ListAsync(
         Guid userId,
         CancellationToken cancellationToken = default)
