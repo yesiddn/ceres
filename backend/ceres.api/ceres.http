@@ -1,11 +1,37 @@
 @ceres_HostAddress = http://localhost:5170
+@accessToken = PASTE_ACCESS_TOKEN_HERE
+@exerciseId = PASTE_EXERCISE_ID_HERE
 
-GET {{ceres_HostAddress}}/weatherforecast/
+### List exercises
+GET {{ceres_HostAddress}}/api/exercises/
+Authorization: Bearer {{accessToken}}
 Accept: application/json
 
-###
+### Create exercise
+POST {{ceres_HostAddress}}/api/exercises/
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
 
-GET {{ceres_HostAddress}}/api/health/
+{
+  "name": "Machine Bench Press",
+  "muscleGroup": "Chest"
+}
+
+### Get exercise
+GET {{ceres_HostAddress}}/api/exercises/{{exerciseId}}
+Authorization: Bearer {{accessToken}}
 Accept: application/json
 
-###
+### Update exercise
+PUT {{ceres_HostAddress}}/api/exercises/{{exerciseId}}
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "name": "Incline Machine Bench Press",
+  "muscleGroup": "Chest"
+}
+
+### Delete exercise
+DELETE {{ceres_HostAddress}}/api/exercises/{{exerciseId}}
+Authorization: Bearer {{accessToken}}
