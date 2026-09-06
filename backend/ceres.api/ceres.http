@@ -1,11 +1,37 @@
 @ceres_HostAddress = http://localhost:5170
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiIwMTlmYzQ5NS0xNzQwLTdlZjYtYTU4MS1mNDQ4Y2QxMTAwYmIiLCJlbWFpbCI6Inllc2lkQGhpLmNvbSIsImp0aSI6IjcyODhiOTU4LThjMjMtNGI1MC1iNWMxLWQyNjZhNjY0ZTA5ZiIsImV4cCI6MTc4ODY2Njg5NiwiaXNzIjoiY2VyZXMtYXBpIiwiYXVkIjoiY2VyZXMtZnJvbnRlbmQifQ.WzzBzWU8lgfti-AOkFtTpolZc_Rr1dpFn4RmSIjilSs
+@exerciseId = 01a074ce-92b0-7b40-991c-479cb677aa42
 
-GET {{ceres_HostAddress}}/weatherforecast/
+### List exercises
+GET {{ceres_HostAddress}}/api/exercises/
+Authorization: Bearer {{accessToken}}
 Accept: application/json
 
-###
+### Create exercise
+POST {{ceres_HostAddress}}/api/exercises/
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
 
-GET {{ceres_HostAddress}}/api/health/
+{
+  "name": "Machine Bench Press",
+  "muscleGroup": "Chest"
+}
+
+### Get exercise
+GET {{ceres_HostAddress}}/api/exercises/{{exerciseId}}
+Authorization: Bearer {{accessToken}}
 Accept: application/json
 
-###
+### Update exercise
+PUT {{ceres_HostAddress}}/api/exercises/{{exerciseId}}
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "name": "Incline Machine Bench Press",
+  "muscleGroup": "Chest"
+}
+
+### Delete exercise
+DELETE {{ceres_HostAddress}}/api/exercises/{{exerciseId}}
+Authorization: Bearer {{accessToken}}
