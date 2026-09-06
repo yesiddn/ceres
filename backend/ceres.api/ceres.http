@@ -1,6 +1,6 @@
 @ceres_HostAddress = http://localhost:5170
-@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiIwMTlmYzQ5NS0xNzQwLTdlZjYtYTU4MS1mNDQ4Y2QxMTAwYmIiLCJlbWFpbCI6Inllc2lkQGhpLmNvbSIsImp0aSI6IjcyODhiOTU4LThjMjMtNGI1MC1iNWMxLWQyNjZhNjY0ZTA5ZiIsImV4cCI6MTc4ODY2Njg5NiwiaXNzIjoiY2VyZXMtYXBpIiwiYXVkIjoiY2VyZXMtZnJvbnRlbmQifQ.WzzBzWU8lgfti-AOkFtTpolZc_Rr1dpFn4RmSIjilSs
-@exerciseId = 01a074ce-92b0-7b40-991c-479cb677aa42
+@accessToken = PASTE_ACCESS_TOKEN_HERE
+@exerciseId = PASTE_EXERCISE_ID_HERE
 
 ### List exercises
 GET {{ceres_HostAddress}}/api/exercises/
