@@ -1,3 +1,4 @@
+using ceres.api.OpenApi;
 using Scalar.AspNetCore;
 
 namespace ceres.api.Extensions;
@@ -19,6 +20,8 @@ public static class OpenApiExtensions
 
                 return Task.CompletedTask;
             });
+
+            options.AddDocumentTransformer<BearerSecuritySchemeTransformer>();
         });
         return services;
     }
