@@ -22,6 +22,8 @@ public static class OpenApiExtensions
             });
 
             options.AddDocumentTransformer<BearerSecuritySchemeTransformer>();
+
+            options.AddOperationTransformer<BearerSecurityRequirementTransformer>();
         });
         return services;
     }
