@@ -1,4 +1,5 @@
 using System.Text;
+using ceres.api.Endpoints.Gym;
 using ceres.api.Endpoints.HealthCheck;
 using ceres.api.Endpoints.Identity;
 using ceres.api.Exceptions;
@@ -76,8 +77,6 @@ builder.Services.AddValidation();
 
 var app = builder.Build();
 
-app.UseAuthentication();
-app.UseAuthorization();
 app.UseExceptionHandler();
 
 // Configure the HTTP request pipeline.
@@ -89,6 +88,9 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseCors(allowCeresOrigin);
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 var api = app.MapGroup("/api");
 
