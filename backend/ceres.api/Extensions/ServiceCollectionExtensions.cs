@@ -28,6 +28,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
         services.AddScoped<IExerciseRepository, ExerciseRepository>();
+        services.AddScoped<IRoutineRepository, RoutineRepository>();
         return services;
     }
 }
