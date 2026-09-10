@@ -1,4 +1,5 @@
 using ceres.application.Gym.Exercises.Interfaces;
+using ceres.application.Gym.Routines.Interfaces;
 using ceres.domain.Gym.Entities;
 using ceres.infrastructure.persistence;
 using Microsoft.EntityFrameworkCore;

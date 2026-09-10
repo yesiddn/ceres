@@ -1,6 +1,6 @@
 using ceres.domain.Gym.Entities;
 
-namespace ceres.application.Gym.Exercises.Interfaces;
+namespace ceres.application.Gym.Routines.Interfaces;
 
 public interface IRoutineRepository
 {
