@@ -10,4 +10,5 @@ public interface IExerciseRepository
     Task AddAsync(Exercise exercise, CancellationToken cancellationToken = default);
     void Remove(Exercise exercise);
     Task SaveChangesAsync(CancellationToken cancellationToken = default);
+    Task<IReadOnlyList<Guid>> ListOwnedIdsAsync(Guid userId, IReadOnlyCollection<Guid> exerciseIds, CancellationToken cancellationToken = default);
 }
