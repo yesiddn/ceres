@@ -15,7 +15,7 @@ public sealed class RoutineExerciseRequest
     [Range(1, int.MaxValue)]
     public int TargetReps { get; set; }
 
-    [Range(1, int.MaxValue)]
+    [Range(0, int.MaxValue)]
     public int RestTimeSeconds { get; set;  }
 
     public Guid? GroupId { get; set; }
