@@ -59,4 +59,18 @@ public sealed class ExerciseRepository(AppDbContext dbContext) : IExerciseReposi
     {
         await dbContext.SaveChangesAsync(cancellationToken);
     }
+
+    public async Task<IReadOnlyList<Guid>> ListOwnedIdsAsync(
+        Guid userId,
+        IReadOnlyCollection<Guid> exerciseIds,
+        CancellationToken cancellationToken = default)
+    {
+        return await dbContext.Exercises
+            .AsNoTracking()
+            .Where(exercise =>
+                exercise.UserId == userId &&
+                exerciseIds.Contains(exercise.Id))
+            .Select(exercise => exercise.Id)
+            .ToListAsync(cancellationToken);
+    }
 }
