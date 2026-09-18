@@ -1,6 +1,7 @@
 using ceres.application.Gym.Exercises.Interfaces;
 using ceres.application.Gym.Exercises.Services;
 using ceres.application.Gym.Routines.Interfaces;
+using ceres.application.Gym.Routines.Services;
 using ceres.application.HealthCheck.Interfaces;
 using ceres.application.HealthCheck.Services;
 using ceres.application.Identity.Interfaces;
@@ -19,6 +20,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IPasswordHasher, PasswordHasher>();
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IExerciseService, ExerciseService>();
+        services.AddScoped<IRoutineService, RoutineService>();
         
         return services;
     }
