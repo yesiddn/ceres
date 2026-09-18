@@ -5,7 +5,7 @@ namespace ceres.application.Gym.Routines.DTOs;
 
 public sealed class RoutineRequest
 {
-    [Required(ErrorMessage = "Routine mus have a name.")]
+    [Required(ErrorMessage = "Routine must have a name.")]
     [MaxLength(100, ErrorMessage = "Routine name must be at most 100 characters.")]
     public string Name { get; set; } = null!;
 
