@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using ceres.api.Contracts.Common;
+using ceres.api.Extensions;
 using ceres.application.Gym.Exercises.DTOs;
 using ceres.application.Gym.Exercises.Enums;
 using ceres.application.Gym.Exercises.Interfaces;
@@ -9,8 +10,6 @@ namespace ceres.api.Endpoints.Gym;
 
 public static class ExerciseEndpoints
 {
-    private const string UserIdClaimName = "UserId";
-
     public static RouteGroupBuilder MapExerciseEndpoints(this RouteGroupBuilder api)
 {
     var exercises = api
@@ -96,7 +95,7 @@ public static class ExerciseEndpoints
             IExerciseService exerciseService,
             CancellationToken cancellationToken)
     {
-        var userId = GetUserId(user);
+        var userId = user.GetUserId();
 
         var exercises =
             await exerciseService.ListAsync(
@@ -116,7 +115,7 @@ public static class ExerciseEndpoints
             IExerciseService exerciseService,
             CancellationToken cancellationToken)
     {
-        var userId = GetUserId(user);
+        var userId = user.GetUserId();
 
         var result =
             await exerciseService.GetByIdAsync(
@@ -146,7 +145,7 @@ public static class ExerciseEndpoints
             IExerciseService exerciseService,
             CancellationToken cancellationToken)
     {
-        var userId = GetUserId(user);
+        var userId = user.GetUserId();
 
         var result =
             await exerciseService.CreateAsync(
@@ -177,7 +176,7 @@ public static class ExerciseEndpoints
             IExerciseService exerciseService,
             CancellationToken cancellationToken)
     {
-        var userId = GetUserId(user);
+        var userId = user.GetUserId();
 
         var result =
             await exerciseService.UpdateAsync(
@@ -211,7 +210,7 @@ public static class ExerciseEndpoints
             IExerciseService exerciseService,
             CancellationToken cancellationToken)
     {
-        var userId = GetUserId(user);
+        var userId = user.GetUserId();
 
         var result =
             await exerciseService.DeleteAsync(
@@ -235,20 +234,5 @@ public static class ExerciseEndpoints
             _ => throw new InvalidOperationException(
                 $"Unexpected exercise status: {result.Status}")
         };
-    }
-
-    private static Guid GetUserId(
-        ClaimsPrincipal user)
-    {
-        var value = user.FindFirstValue(
-            UserIdClaimName);
-
-        if (!Guid.TryParse(value, out var userId))
-        {
-            throw new InvalidOperationException(
-                "Authenticated user does not contain a valid UserId claim.");
-        }
-
-        return userId;
     }
 }
