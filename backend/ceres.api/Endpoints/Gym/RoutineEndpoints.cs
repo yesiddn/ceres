@@ -45,10 +45,7 @@ public static class RoutineEndpoints
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status401Unauthorized)
             .Produces<ErrorResponse>(
-                StatusCodes.Status400BadRequest)
-            .ProducesValidationProblem(
                 StatusCodes.Status400BadRequest);
-
 
         routines.MapPut("/{id:guid}", UpdateRoutineAsync)
             .WithName("UpdateRoutine")
@@ -61,8 +58,6 @@ public static class RoutineEndpoints
             .Produces(StatusCodes.Status401Unauthorized)
             .Produces(StatusCodes.Status404NotFound)
             .Produces<ErrorResponse>(
-                StatusCodes.Status400BadRequest)
-            .ProducesValidationProblem(
                 StatusCodes.Status400BadRequest);
 
         routines.MapDelete("/{id:guid}", DeleteRoutineAsync)
