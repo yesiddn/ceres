@@ -2,7 +2,7 @@ using System.Security.Claims;
 
 namespace ceres.api.Extensions;
 
-internal static class ClaimsPrincipalEntensions
+internal static class ClaimsPrincipalExtensions
 {
     public static Guid GetUserId(this ClaimsPrincipal user)
     {
