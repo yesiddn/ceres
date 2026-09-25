@@ -1,6 +1,8 @@
 @ceres_HostAddress = http://localhost:5170
 @accessToken = PASTE_ACCESS_TOKEN_HERE
 @exerciseId = PASTE_EXERCISE_ID_HERE
+@routineId = PASTE_ROUTINE_ID_HERE
+
 
 ### List exercises
 GET {{ceres_HostAddress}}/api/exercises/
@@ -34,4 +36,58 @@ Content-Type: application/json
 
 ### Delete exercise
 DELETE {{ceres_HostAddress}}/api/exercises/{{exerciseId}}
+Authorization: Bearer {{accessToken}}
+
+### List routines
+GET {{ceres_HostAddress}}/api/routines/
+Authorization: Bearer {{accessToken}}
+Accept: application/json
+
+### Create routine
+POST {{ceres_HostAddress}}/api/routines/
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "name": "Push A",
+  "scheduledDays": 17,
+  "exercises": [
+    {
+      "exerciseId": "{{exerciseId}}",
+      "order": 1,
+      "targetSets": 3,
+      "targetReps": 12,
+      "restTimeSeconds": 90,
+      "groupId": null
+    }
+  ]
+}
+
+### Get routine
+GET {{ceres_HostAddress}}/api/routines/{{routineId}}
+Authorization: Bearer {{accessToken}}
+Accept: application/json
+
+### Update routine
+PUT {{ceres_HostAddress}}/api/routines/{{routineId}}
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "name": "Push B",
+  "scheduledDays": 34,
+  "exercises": [
+    {
+      "exerciseId": "{{exerciseId}}",
+      "order": 1,
+      "targetSets": 4,
+      "targetReps": 10,
+      "restTimeSeconds": 120,
+      "groupId": null
+    }
+  ]
+}
+
+### Delete routine
+DELETE {{ceres_HostAddress}}/api/routines/{{routineId}}
 Authorization: Bearer {{accessToken}}
