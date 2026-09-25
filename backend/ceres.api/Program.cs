@@ -97,5 +97,6 @@ var api = app.MapGroup("/api");
 api.MapHealthEndpoints();
 api.MapAuthEndpoints();
 api.MapExerciseEndpoints();
+api.MapRoutineEndpoints();
 
 app.Run();
