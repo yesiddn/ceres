@@ -1,5 +1,5 @@
 import apiClient from "@/shared/services/api/apiClient";
-import type { RoutineListItemResponse, RoutineRequest, RoutineResponse } from "../types/rutine";
+import type { RoutineListItemResponse, RoutineRequest, RoutineResponse } from "../types/routine";
 import { toApiError } from "@/shared/services/api/ApiError";
 
 export async function listRoutines(): Promise<RoutineListItemResponse[]> {
