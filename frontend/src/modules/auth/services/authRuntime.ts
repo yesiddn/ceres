@@ -48,6 +48,8 @@ function publish(nextSnapshot: AuthSnapshot): void {
 }
 
 export function setSession(accessToken: string): void {
+  if (snapshot.status === "authenticated" && snapshot.accessToken === accessToken) return;
+
   const user = getUserFromAccessToken(accessToken);
 
   sessionRevision += 1;
