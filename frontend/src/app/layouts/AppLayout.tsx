@@ -1,10 +1,13 @@
-import { Outlet } from "react-router";
+import { Outlet, useNavigation } from "react-router";
 
 import { DesktopSidebar } from "@/app/components/layout/DesktopSidebar";
 import { MobileAppBar } from "@/app/components/layout/MobileAppBar";
 import { MobileBottomNavigation } from "@/app/components/layout/MobileBottomNavigation";
 
 export function AppLayout() {
+  const navigation = useNavigation();
+  const isLoading = navigation.state === "loading";
+
   return (
     <div
       className="
@@ -26,6 +29,11 @@ export function AppLayout() {
             lg:px-8 lg:py-8 lg:pb-8
           "
         >
+          {isLoading && (
+            <p role="status" className="mb-4 text-sm text-slate-600">
+              Cargando contenido…
+            </p>
+          )}
           <Outlet />
         </main>
       </div>

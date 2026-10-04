@@ -5,6 +5,7 @@ export interface AuthContextValue {
   user: AuthUser | null;
   accessToken: string | null;
   isAuthenticated: boolean;
+  isInitialized: boolean;
   login: (accessToken: string) => void;
   logout: () => void;
 }
