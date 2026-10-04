@@ -2,12 +2,13 @@ import apiClient from "@/shared/services/api/apiClient";
 import type { ExerciseResponse, ExerciseRequest } from "../types/exercise";
 import { toApiError } from "@/shared/services/api/ApiError";
 
-export async function listExercises(): Promise<ExerciseResponse[]> {
+export async function listExercises(signal?: AbortSignal): Promise<ExerciseResponse[]> {
   try {
-    const response = await apiClient.get<ExerciseResponse[]>("/exercises");
+    const response = await apiClient.get<ExerciseResponse[]>("/exercises", { signal });
 
     return response.data;
   } catch (error: unknown) {
+    signal?.throwIfAborted();
     throw toApiError(error);
   }
 }
