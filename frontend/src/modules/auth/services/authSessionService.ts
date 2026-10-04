@@ -1,5 +1,5 @@
 import { refresh as refreshRequest } from "./authService";
-import { broadcastAccessToken, requestAccessTokenFromTabs } from "./authChannel";
+import { requestAccessTokenFromTabs } from "./authChannel";
 import { isAccessTokenUsable } from "../utils/isAccessTokenUsable";
 
 const AUTH_REFRESH_LOCK = "ceres-auth-refresh";
@@ -46,8 +46,6 @@ export async function recoverAccessToken({
     }
 
     const response = await refreshRequest();
-
-    broadcastAccessToken(response.accessToken);
 
     return response.accessToken;
   });

@@ -1,34 +1,21 @@
-import { useCallback, useState, type ReactNode } from "react";
+import { useSyncExternalStore, type ReactNode } from "react";
 import { AuthContext, type AuthContextValue } from "../context/AuthContext";
-import type { AuthUser } from "../types/auth";
-import { getUserFromAccessToken } from "../utils/getUserFromAccessToken";
+import * as authRuntime from "../services/authRuntime";
 
 interface AuthProviderProps {
   children: ReactNode;
 }
 
 export function AuthProvider({ children }: AuthProviderProps) {
-  const [accessToken, setAccessToken] = useState<string | null>(null);
-  const [user, setUser] = useState<AuthUser | null>(null);
-
-  const login = useCallback((token: string) => {
-    const authenticatedUser = getUserFromAccessToken(token);
-
-    setAccessToken(token);
-    setUser(authenticatedUser);
-  }, []);
-
-  const logout = useCallback(() => {
-    setAccessToken(null);
-    setUser(null);
-  }, []);
+  const state = useSyncExternalStore(authRuntime.subscribe, authRuntime.getSnapshot);
 
   const value: AuthContextValue = {
-    user,
-    accessToken,
-    isAuthenticated: !!accessToken,
-    login,
-    logout,
+    user: state.user,
+    accessToken: state.accessToken,
+    isAuthenticated: state.status === "authenticated",
+    isInitialized: state.status !== "uninitialized",
+    login: authRuntime.setSession,
+    logout: authRuntime.clearSession,
   };
 
   return <AuthContext value={value}>{children}</AuthContext>;
