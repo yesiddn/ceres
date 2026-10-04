@@ -1,5 +1,3 @@
-import { AuthInterceptor } from "@/modules/auth/components/AuthInterceptor";
-import { AuthSessionCoordinator } from "@/modules/auth/components/AuthSessionCoordinator";
 import { AuthProvider } from "@/modules/auth/providers/AuthProvider";
 import type { ReactNode } from "react";
 
@@ -8,12 +6,5 @@ interface AppProvidersProps {
 }
 
 export function AppProviders({ children }: AppProvidersProps) {
-  return (
-    <AuthProvider>
-      <AuthSessionCoordinator>
-        <AuthInterceptor />
-        {children}
-      </AuthSessionCoordinator>
-    </AuthProvider>
-  );
+  return <AuthProvider>{children}</AuthProvider>;
 }
