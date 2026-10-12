@@ -4,13 +4,14 @@ import type { exercisesLoader } from "../loaders/exercisesLoader";
 import { ExercisesSkeleton } from "../components/ExercisesSkeleton";
 import { ExercisesPageHeader } from "../components/ExercisesPageHeader";
 import { ExerciseCard } from "../components/ExerciseCard";
+import { ExercisesLoadError } from "../components/ExercisesLoadError";
 
 export function ExercisesPage() {
   const { exercises } = useLoaderData<typeof exercisesLoader>();
 
   return (
     <Suspense fallback={<ExercisesSkeleton />}>
-      <Await resolve={exercises}>
+      <Await resolve={exercises} errorElement={<ExercisesLoadError />}>
         {(resolvedExercises) => (
           <section aria-labelledby="exercises-title" className="space-y-6">
             <ExercisesPageHeader />
