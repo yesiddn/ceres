@@ -13,12 +13,13 @@ export async function listExercises(signal?: AbortSignal): Promise<ExerciseRespo
   }
 }
 
-export async function getExercise(id: string): Promise<ExerciseResponse> {
+export async function getExercise(id: string, signal?: AbortSignal): Promise<ExerciseResponse> {
   try {
-    const response = await apiClient.get<ExerciseResponse>(`/exercises/${id}`);
+    const response = await apiClient.get<ExerciseResponse>(`/exercises/${id}`, { signal });
 
     return response.data;
   } catch (error: unknown) {
+    signal?.throwIfAborted();
     throw toApiError(error);
   }
 }
