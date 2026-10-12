@@ -32,9 +32,9 @@ export function ExercisesErrorBoundary() {
         </button>
 
         {isRetrying && (
-          <p role="status" className="mt-3 text-sm text-slate-600">
+          <output name="loading" className="mt-3 text-sm text-slate-600">
             Cargando ejercicios…
-          </p>
+          </output>
         )}
       </div>
     </section>
