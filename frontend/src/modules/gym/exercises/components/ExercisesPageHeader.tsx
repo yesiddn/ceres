@@ -17,7 +17,6 @@ export function ExercisesPageHeader() {
           className="min-h-11 shrink-0 rounded-lg bg-slate-900 px-4 py-2
           font-medium text-white disabled:cursor-not-allowed
           disabled:opacity-60"
-          aria-describedby="exercise-actions-note"
         >
           Nuevo ejercicio
         </Link>
