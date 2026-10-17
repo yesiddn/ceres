@@ -17,6 +17,11 @@ import {
 import { AppLoadingScreen } from "@/shared/components/AppLoadingScreen";
 import { AuthInitializationErrorBoundary } from "@/modules/auth/pages/AuthInitializationErrorBoundary";
 import { ExercisesErrorBoundary } from "@/modules/gym/exercises/pages/ExercisesErrorBoundary";
+import { exerciseLoader } from "@/modules/gym/exercises/loaders/exerciseLoader";
+import { CreateExercisePage } from "@/modules/gym/exercises/pages/CreateExercisePage";
+import { EditExercisePage } from "@/modules/gym/exercises/pages/EditExercisePage";
+import { deleteExerciseAction } from "@/modules/gym/exercises/actions/deleteExerciseAction";
+import { ExerciseErrorBoundary } from "@/modules/gym/exercises/pages/ExerciseErrorBoundary";
 
 export const routes: RouteObject[] = [
   {
@@ -48,8 +53,19 @@ export const routes: RouteObject[] = [
               {
                 path: "gym/exercises",
                 loader: exercisesLoader,
+                action: deleteExerciseAction,
                 Component: ExercisesPage,
                 ErrorBoundary: ExercisesErrorBoundary,
+              },
+              {
+                path: "gym/exercises/new",
+                Component: CreateExercisePage,
+              },
+              {
+                path: "gym/exercises/:exerciseId/edit",
+                loader: exerciseLoader,
+                Component: EditExercisePage,
+                ErrorBoundary: ExerciseErrorBoundary,
               },
             ],
           },

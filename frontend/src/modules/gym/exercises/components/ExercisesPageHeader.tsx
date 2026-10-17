@@ -1,3 +1,5 @@
+import { Link } from "react-router";
+
 export function ExercisesPageHeader() {
   return (
     <header className="space-y-3">
@@ -10,21 +12,15 @@ export function ExercisesPageHeader() {
           <p className="mt-2 text-slate-600">Consulta tu catálogo personal de ejercicios.</p>
         </div>
 
-        <button
-          type="button"
-          disabled
-          aria-describedby="exercise-actions-note"
+        <Link
+          to="/gym/exercises/new"
           className="min-h-11 shrink-0 rounded-lg bg-slate-900 px-4 py-2
-            font-medium text-white disabled:cursor-not-allowed
-            disabled:opacity-60"
+          font-medium text-white disabled:cursor-not-allowed
+          disabled:opacity-60"
         >
           Nuevo ejercicio
-        </button>
+        </Link>
       </div>
-
-      <p id="exercise-actions-note" className="text-sm text-slate-600">
-        Las opciones para crear, editar y eliminar estarán disponibles próximamente.
-      </p>
     </header>
   );
 }
