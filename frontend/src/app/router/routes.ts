@@ -22,6 +22,8 @@ import { CreateExercisePage } from "@/modules/gym/exercises/pages/CreateExercise
 import { EditExercisePage } from "@/modules/gym/exercises/pages/EditExercisePage";
 import { deleteExerciseAction } from "@/modules/gym/exercises/actions/deleteExerciseAction";
 import { ExerciseErrorBoundary } from "@/modules/gym/exercises/pages/ExerciseErrorBoundary";
+import { RoutinesErrorBoundary } from "@/modules/gym/routines/pages/RoutinesErrorBoundary";
+import { routinesLoader } from "@/modules/gym/routines/loaders/routinesLoader";
 
 export const routes: RouteObject[] = [
   {
@@ -44,7 +46,9 @@ export const routes: RouteObject[] = [
               },
               {
                 path: "gym/routines",
+                loader: routinesLoader,
                 Component: RoutinesPage,
+                ErrorBoundary: RoutinesErrorBoundary,
               },
               {
                 path: "gym/workouts",
