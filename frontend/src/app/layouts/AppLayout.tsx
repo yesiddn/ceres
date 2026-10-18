@@ -30,9 +30,9 @@ export function AppLayout() {
           "
         >
           {isLoading && (
-            <p role="status" className="mb-4 text-sm text-slate-600">
+            <output className="mb-4 block text-sm text-slate-600">
               Cargando contenido…
-            </p>
+            </output>
           )}
           <Outlet />
         </main>
