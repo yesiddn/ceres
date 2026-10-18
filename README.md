@@ -1,48 +1,21 @@
 # Ceres
 
-Personal finance app with gym tracking module — built to learn and apply real architecture, backend, frontend, and database fundamentals.
+Personal finance app with a gym tracking module — built to learn and apply real architecture, backend, frontend, and database fundamentals.
 
 **License**: GPLv3
 
----
-
-## Current Sprint: Sprint 2 — Authentication (Login & Registration)
-
-We're implementing JWT-based authentication.
-
-| Issue | Status |
-|-------|--------|
-| MID-46 — BE Login + JWT | ✅ Done |
-| MID-45 — BE Register + bcrypt | ✅ Done |
-| MID-44 — User entity + migrations | ✅ Done |
-| MID-48 — FE Login view | ✅ Done |
-| MID-47 — FE Register view | ⏳ Todo |
-| MID-75 — BE Refresh Token | ⏳ Todo |
-| MID-49 — Global auth state (FE) | 📋 Backlog |
-| MID-50 — Axios interceptor (FE) | 📋 Backlog |
-
-**Sprint progress**: 50% (via Linear)
-
----
-
-## What Exists vs What's Planned
-
-| Layer | Implemented | Planned |
-|-------|-------------|---------|
-| **Backend** | User entity, AppDbContext, auth (register + login), JWT, bcrypt, EF migrations, health check | Accounts, Categories, Transactions, Gym (exercises, routines, workouts) |
-| **Frontend** | Vite + React, `modules/auth` (login, AuthContext, authService), router + AppLayout, API client | Register page, dashboard, finance CRUD, gym tracking UI |
-| **Infra** | Docker Compose (PostgreSQL + pgAdmin) | CI/CD, tests |
+> Project context, current implementation status, and working conventions are maintained in [`AGENTS.md`](AGENTS.md). Notion documents project requirements and technical decisions; Linear manages issues and cycles; the repository is the source of truth for implemented behavior.
 
 ---
 
 ## Tech Stack
 
 | Layer | Tech |
-|-------|------|
+|------|------|
 | Backend | .NET 10 Minimal APIs |
 | ORM | EF Core 10 (Code-First) |
-| Database | PostgreSQL 17 via Npgsql |
-| Auth | JWT (Bearer) + BCrypt |
+| Database | PostgreSQL via Npgsql |
+| Auth | JWT (Bearer) + BCrypt; refresh-token rotation |
 | Frontend | React 19 + TypeScript 6 + Vite 8 |
 | Styling | Tailwind CSS v4 |
 | Linting | Oxlint |
@@ -66,15 +39,15 @@ pnpm --dir frontend dev
 - API: `http://localhost:5170`, Scalar at `/scalar/v1`
 - Frontend: `http://localhost:5173`
 
+See [`AGENTS.md`](AGENTS.md) for additional build, lint, migration commands and local configuration notes.
+
 ---
 
 ## Architecture
 
-Backend follows Clean Architecture layers: `API → Application → Domain`; `Infrastructure → Domain`.
+Backend follows Clean Architecture: `API → Application → Domain`; `Infrastructure → Application + Domain`.
 
-Frontend is organized by domain (Screaming Architecture): `modules/<domain>/<subdomain>/{components,pages,hooks,services,types,utils}`.
-
-**Known debt**: `ceres.Application` references `ceres.Infrastructure` (should not in Clean Architecture). `IUserRepository` lives in Infrastructure instead of Application.
+Frontend is organized by domain/feature under `frontend/src/modules`, with shared API infrastructure under `frontend/src/shared` and application routing/layout under `frontend/src/app`.
 
 ---
 
@@ -84,22 +57,14 @@ Frontend is organized by domain (Screaming Architecture): `modules/<domain>/<sub
 ceres/
 ├── backend/
 │   ├── ceres.api/              # Minimal API, endpoints, DI, middleware
-│   ├── ceres.application/      # Use cases, DTOs, services, mappers
-│   ├── ceres.domain/           # Entities, value objects
+│   ├── ceres.application/      # Use cases, DTOs, services, ports and mappers
+│   ├── ceres.domain/           # Entities and domain rules
 │   └── ceres.infrastructure/   # EF Core, PostgreSQL, repositories, migrations
 ├── frontend/
-│   ├── src/
-│   │   ├── api/                # API client
-│   │   └── App.tsx             # Health check demo
-│   └── package.json
-└── AGENTS.md
+│   └── src/
+│       ├── app/                # Routing, layouts, guards and providers
+│       ├── modules/            # Feature modules (auth, gym, ...)
+│       └── shared/             # Shared API client and UI
+├── AGENTS.md                  # Project context, canonical docs and agent guidance
+└── README.md
 ```
-
----
-
-## Documentation
-
-- **SDD**: [Notion — Software Design Document](https://app.notion.com/p/394400927746817f85dcc1e2dd5cb401)
-- **Gym Module**: [Notion — Módulo de Gimnasio](https://app.notion.com/p/39440092774680fc865be8b024c5d007)
-- **Mappers**: [Notion — DTOs, Entidades y Mappers](https://app.notion.com/p/3944009277468123bb56f9fa19cda62d)
-- **Tracking**: [Linear — Ceres Project](https://linear.app/midnight-snow/project/ceres-864218283604)
