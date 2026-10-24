@@ -10,13 +10,13 @@ export function RoutinesPage() {
   const { routines } = useLoaderData<typeof routinesLoader>();
 
   return (
-    <section aria-labelledby="routines-title" className="space-y-6">
-      <RoutinesPageHeader />
+    <Suspense fallback={<RoutinesSkeleton />}>
+      <Await resolve={routines} errorElement={<RoutinesLoadError />}>
+        {(resolvedRoutines) => (
+          <section aria-labelledby="routines-title" className="space-y-6">
+            <RoutinesPageHeader />
 
-      <Suspense fallback={<RoutinesSkeleton />}>
-        <Await resolve={routines} errorElement={<RoutinesLoadError />}>
-          {(resolvedRoutines) =>
-            resolvedRoutines.length === 0 ? (
+            {resolvedRoutines.length === 0 ? (
               <div className="rounded-xl border border-dashed border-slate-300 p-8">
                 <p className="font-medium">Todavía no tienes rutinas.</p>
 
@@ -32,10 +32,10 @@ export function RoutinesPage() {
                   </li>
                 ))}
               </ul>
-            )
-          }
-        </Await>
-      </Suspense>
-    </section>
+            )}
+          </section>
+        )}
+      </Await>
+    </Suspense>
   );
 }
