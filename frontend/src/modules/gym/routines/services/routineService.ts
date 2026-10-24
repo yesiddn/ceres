@@ -2,12 +2,13 @@ import apiClient from "@/shared/services/api/apiClient";
 import type { RoutineListItemResponse, RoutineRequest, RoutineResponse } from "../types/routine";
 import { toApiError } from "@/shared/services/api/ApiError";
 
-export async function listRoutines(): Promise<RoutineListItemResponse[]> {
+export async function listRoutines(signal?: AbortSignal): Promise<RoutineListItemResponse[]> {
   try {
-    const response = await apiClient.get<RoutineListItemResponse[]>("/routines");
+    const response = await apiClient.get<RoutineListItemResponse[]>("/routines", { signal });
 
     return response.data;
   } catch (error: unknown) {
+    signal?.throwIfAborted();
     throw toApiError(error);
   }
 }

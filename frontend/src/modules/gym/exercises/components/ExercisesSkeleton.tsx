@@ -1,9 +1,7 @@
 export function ExercisesSkeleton() {
   return (
     <section className="space-y-6">
-      <p role="status" className="sr-only">
-        Cargando ejercicios…
-      </p>
+      <output className="sr-only">Cargando ejercicios…</output>
 
       <div aria-hidden="true" className="space-y-6 motion-safe:animate-pulse">
         <div className="flex flex-col gap-4 sm:flex-row sm:justify-between">
