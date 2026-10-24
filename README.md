@@ -1,4 +1,4 @@
-# Ceres
+# Ceres project
 
 Personal finance app with a gym tracking module — built to learn and apply real architecture, backend, frontend, and database fundamentals.
 
@@ -10,16 +10,16 @@ Personal finance app with a gym tracking module — built to learn and apply rea
 
 ## Tech Stack
 
-| Layer | Tech |
-|------|------|
-| Backend | .NET 10 Minimal APIs |
-| ORM | EF Core 10 (Code-First) |
-| Database | PostgreSQL via Npgsql |
-| Auth | JWT (Bearer) + BCrypt; refresh-token rotation |
-| Frontend | React 19 + TypeScript 6 + Vite 8 |
-| Styling | Tailwind CSS v4 |
-| Linting | Oxlint |
-| Containers | Docker Compose |
+| Layer      | Tech                                          |
+| ---------- | --------------------------------------------- |
+| Backend    | .NET 10 Minimal APIs                          |
+| ORM        | EF Core 10 (Code-First)                       |
+| Database   | PostgreSQL via Npgsql                         |
+| Auth       | JWT (Bearer) + BCrypt; refresh-token rotation |
+| Frontend   | React 19 + TypeScript 6 + Vite 8              |
+| Styling    | Tailwind CSS v4                               |
+| Linting    | Oxlint                                        |
+| Containers | Docker Compose                                |
 
 ---
 
