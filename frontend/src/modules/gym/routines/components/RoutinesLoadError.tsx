@@ -20,7 +20,7 @@ export function RoutinesLoadError() {
   if (isRetrying) return <RoutinesSkeleton />;
 
   return (
-    <section aria-labelledby="exercises-title" className="space-y-6">
+    <section aria-labelledby="routines-title" className="space-y-6">
       <RoutinesPageHeader />
 
       <div className="rounded-xl border border-red-200 bg-red-50 p-4">
