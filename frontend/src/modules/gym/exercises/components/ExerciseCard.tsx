@@ -37,7 +37,7 @@ export function ExerciseCard({ exercise }: ExerciseCardProps) {
           Editar
         </Link>
 
-        <fetcher.Form method="delete" action="/gym/exercises" onSubmit={handleDeleteSubmit}>
+        <fetcher.Form method="delete" action="/gym/exercises?index" onSubmit={handleDeleteSubmit}>
           <input type="hidden" name="exerciseId" value={exercise.id} />
 
           <button
