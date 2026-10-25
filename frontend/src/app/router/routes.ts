@@ -71,6 +71,10 @@ export const routes: RouteObject[] = [
                 ],
               },
               {
+                path: "gym/workouts",
+                Component: WorkoutsPage,
+              },
+              {
                 path: "gym/exercises",
                 children: [
                   {
