@@ -13,12 +13,13 @@ export async function listRoutines(signal?: AbortSignal): Promise<RoutineListIte
   }
 }
 
-export async function getRoutine(id: string): Promise<RoutineResponse> {
+export async function getRoutine(id: string, signal?: AbortSignal): Promise<RoutineResponse> {
   try {
-    const response = await apiClient.get<RoutineResponse>(`/routines/${id}`);
+    const response = await apiClient.get<RoutineResponse>(`/routines/${id}`, { signal });
 
     return response.data;
   } catch (error: unknown) {
+    signal?.throwIfAborted();
     throw toApiError(error);
   }
 }

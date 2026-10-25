@@ -24,6 +24,10 @@ import { deleteExerciseAction } from "@/modules/gym/exercises/actions/deleteExer
 import { ExerciseErrorBoundary } from "@/modules/gym/exercises/pages/ExerciseErrorBoundary";
 import { RoutinesErrorBoundary } from "@/modules/gym/routines/pages/RoutinesErrorBoundary";
 import { routinesLoader } from "@/modules/gym/routines/loaders/routinesLoader";
+import { CreateRoutinePage } from "@/modules/gym/routines/pages/CreateRoutinePage";
+import { RoutineErrorBoundary } from "@/modules/gym/routines/pages/RoutineErrorBoundary";
+import { routineLoader } from "@/modules/gym/routines/loaders/routineLoader";
+import { EditRoutinePage } from "@/modules/gym/routines/pages/EditRoutinePage";
 
 export const routes: RouteObject[] = [
   {
@@ -46,9 +50,25 @@ export const routes: RouteObject[] = [
               },
               {
                 path: "gym/routines",
-                loader: routinesLoader,
-                Component: RoutinesPage,
-                ErrorBoundary: RoutinesErrorBoundary,
+                children: [
+                  {
+                    index: true,
+                    loader: routinesLoader,
+                    Component: RoutinesPage,
+                    ErrorBoundary: RoutinesErrorBoundary,
+                  },
+                  {
+                    path: "new",
+                    Component: CreateRoutinePage,
+                    ErrorBoundary: RoutineErrorBoundary,
+                  },
+                  {
+                    path: ":routineId/edit",
+                    loader: routineLoader,
+                    Component: EditRoutinePage,
+                    ErrorBoundary: RoutineErrorBoundary,
+                  },
+                ],
               },
               {
                 path: "gym/workouts",
@@ -56,20 +76,25 @@ export const routes: RouteObject[] = [
               },
               {
                 path: "gym/exercises",
-                loader: exercisesLoader,
-                action: deleteExerciseAction,
-                Component: ExercisesPage,
-                ErrorBoundary: ExercisesErrorBoundary,
-              },
-              {
-                path: "gym/exercises/new",
-                Component: CreateExercisePage,
-              },
-              {
-                path: "gym/exercises/:exerciseId/edit",
-                loader: exerciseLoader,
-                Component: EditExercisePage,
-                ErrorBoundary: ExerciseErrorBoundary,
+                children: [
+                  {
+                    index: true,
+                    loader: exercisesLoader,
+                    action: deleteExerciseAction,
+                    Component: ExercisesPage,
+                    ErrorBoundary: ExercisesErrorBoundary,
+                  },
+                  {
+                    path: "new",
+                    Component: CreateExercisePage,
+                  },
+                  {
+                    path: ":exerciseId/edit",
+                    loader: exerciseLoader,
+                    Component: EditExercisePage,
+                    ErrorBoundary: ExerciseErrorBoundary,
+                  },
+                ],
               },
             ],
           },
