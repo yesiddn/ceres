@@ -31,7 +31,7 @@ export function RoutineErrorBoundary() {
         to="/gym/routines"
         className="inline-flex min-h-11 items-center rounded-lg border border-slate-300 px-4"
       >
-        Volver a ejercicios
+        Volver a rutinas
       </Link>
     </section>
   );
