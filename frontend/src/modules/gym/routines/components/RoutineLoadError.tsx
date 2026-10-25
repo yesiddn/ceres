@@ -31,7 +31,7 @@ export function RoutineLoadError() {
 
         <p role="alert" className="mt-2 text-slate-600">
           {isNotFound
-            ? "La rutina que intentas editar no existe o ya fue eliminado."
+            ? "La rutina que intentas editar no existe o ya fue eliminada."
             : "Ocurrió un problema al cargar la rutina. Inténtalo nuevamente."}
         </p>
       </div>

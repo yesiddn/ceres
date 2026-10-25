@@ -32,7 +32,7 @@ export function RoutineForm({ defaultValues, onSubmit }: RoutineFormProps) {
       <div className="space-y-5">
         <div>
           <label htmlFor="routine-name" className="block text-sm font-semibold text-slate-800">
-            Nombre del ejercicio
+            Nombre de la rutina
           </label>
           <input
             type="text"
@@ -44,7 +44,11 @@ export function RoutineForm({ defaultValues, onSubmit }: RoutineFormProps) {
             className={inputClassName}
           />
           {errors.name && (
-            <p id="name-error" role="alert" className="mt-2 text-sm font-medium text-red-600">
+            <p
+              id="routine-name-error"
+              role="alert"
+              className="mt-2 text-sm font-medium text-red-600"
+            >
               {errors.name.message}
             </p>
           )}
@@ -69,7 +73,12 @@ export function RoutineForm({ defaultValues, onSubmit }: RoutineFormProps) {
                         ref={index === 0 ? field.ref : undefined}
                         checked={field.value.includes(flag)}
                         onBlur={field.onBlur}
-                        aria-describedby="scheduled-days-help"
+                        aria-invalid={Boolean(errors.scheduledDays)}
+                        aria-describedby={
+                          errors.scheduledDays
+                            ? "scheduled-days-help routine-scheduledDays-error"
+                            : "scheduled-days-help"
+                        }
                         onChange={(event) => {
                           const nextDays = event.target.checked
                             ? [...field.value, flag]
